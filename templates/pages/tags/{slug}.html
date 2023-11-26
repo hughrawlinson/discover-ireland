@@ -1,0 +1,27 @@
+{% extends "default:base.html" %}
+
+{% block content %}
+<h1>Fáilte Ireland Attractions &amp; Activities</h1>
+<h2>Tag: {{slug | replace("+", " ")}}</h2>
+<div class="selectorListContainer">
+  <div class="selectorList">
+    <h2>Counties</h2>
+    <ul>
+    {% for row in sql("select AddressRegion, count(*) as count from entities_combined where Tag = ? group by AddressRegion order by AddressRegion asc", [slug | replace("+", " ")]) %}
+    <li><a href="/tags/{{ slug }}/counties/{{ row.AddressRegion }}">{{ row.AddressRegion }}</a><span>({{row.count}})</span></li>
+    {% endfor %}
+    </ul>
+  </div>
+  <div class="selectorList">
+    <h2>Localities</h2>
+    <ul>
+    {% for row in sql("select AddressLocality, AddressRegion, count(*) as count from entities_combined where Tag = ? and AddressLocality != '' group by AddressLocality order by AddressLocality asc", [slug | replace("+", " ")]) %}
+    <li><a href="tags/{{ slug }}/counties/{{ row.AddressRegion }}/localities/{{ row.AddressLocality | replace(" ", "+") }}">{{ row.AddressLocality }}</a><span>({{row.count}})</span></li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
+{% with rows=sql("select * from entities_combined where lower(Tag) = lower(?)", [slug | replace("+", " ")]) %}
+{% include '_attraction_list.html' %}
+{% endwith %}
+{% endblock %}

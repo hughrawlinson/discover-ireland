@@ -1,0 +1,14 @@
+{% extends "default:base.html" %}
+
+{% block content %}
+<h1>Fáilte Ireland Attractions &amp; Activities</h1>
+
+<h2>Tag: {{ tagSlug | replace("+", " ") }}</h2> 
+<h2>County: {{ countySlug }}</h2>
+<h2>Locality: {{ localitySlug | replace("+", " ") }}</h2>
+{# {% with rows=sql("select * from tag_relationships join attractions on tag_relationships.attractions_id = attractions.rowid join tags on tag_relationships.tags_id = tags.rowid where attractions.AddressRegion = ? and attractions.AddressLocality = ? group by attractions.name", [countySlug, localitySlug | replace("+", " ")]) %} #}
+{% with rows=sql("select * from entities_combined where AddressRegion = ? and AddressLocality = ? and Tag = ? group by name", [countySlug, localitySlug | replace("+", " "), tagSlug | replace("+", " ")]) %}
+{% include '_attraction_list.html' %}
+{% endwith %}
+{% endblock %}
+

@@ -1,0 +1,56 @@
+section.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.selectorListContainer {
+  gap: 20px;
+  max-width: 900px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: stretch
+}
+
+.selectorList {
+  padding: 20px;
+  flex: 1 1 273px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+
+  & h2 {
+    margin: 0;
+  }
+
+  & ul {
+    max-height: 300px;
+    overflow-y: scroll;
+    
+    & li {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      & span {
+        padding-right: 5px;
+      }
+    }
+  }
+}
+
+.attraction-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  & h3 {
+    margin: 0;
+  }
+  & p {
+    margin: 0;
+  }
+}

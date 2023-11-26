@@ -1,0 +1,32 @@
+{% extends "default:index.html" %}
+
+{% block content %}
+<h1>Fáilte Ireland Attractions &amp; Activities</h1>
+<p>Browse Fáilte Ireland's register of attractions and activities by tag, county, and locality. Open Data sourced from <a href="https://data.gov.ie/organization/failte-ireland">data.gov.ie</a>.</p>
+<div class="selectorListContainer">
+  <div class="selectorList">
+    <h2>Tags</h2>
+    <ul>
+    {% for row in sql("select Tag, count(*) as count from entities_combined group by Tag order by count desc") %}
+    <li><a href="/tags/{{ row.Tag | replace(" ", "+") }}">{{ row.Tag }}</a><span>({{row.count}})</span></li>
+    {% endfor %}
+    </ul>
+  </div>
+  <div class="selectorList">
+    <h2>Counties</h2>
+    <ul>
+    {% for row in sql("select AddressRegion, count(*) as count from entities where AddressRegion != '' group by AddressRegion order by AddressRegion asc") %}
+    <li><a href="/counties/{{ row.AddressRegion }}">{{ row.AddressRegion }}</a><span>({{row.count}})</span></li>
+    {% endfor %}
+    </ul>
+  </div>
+  <div class="selectorList">
+    <h2>Localities</h2>
+    <ul>
+    {% for row in sql("select AddressLocality, AddressRegion, count(*) as count from entities where AddressLocality != '' group by AddressLocality order by AddressLocality asc") %}
+    <li><a href="/counties/{{ row.AddressRegion }}/localities/{{ row.AddressLocality | replace(" ", "+") }}">{{ row.AddressLocality }}</a><span>({{row.count}})</span></li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

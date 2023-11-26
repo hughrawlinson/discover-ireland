@@ -1,0 +1,11 @@
+<div class="attraction-card">
+  {% if attraction.name %}<h3>{{ attraction.name }}</h3>{% endif %}
+  {% if attraction.Url %}<p><a href="{{ attraction.Url }}" target="_blank">Website</a></p>{% endif %}
+  {% if attraction.AddressRegion or attraction.AddressLocality %}
+    <p>
+    {% if attraction.AddressRegion %}{{ attraction.AddressRegion }}{% endif %}
+    {% if attraction.AddressRegion and attraction.AddressLocality %} - {% endif %}
+    {% if attraction.AddressLocality %}{{ attraction.AddressLocality }}{% endif %}
+    </p>
+  {% endif %}
+</div>

@@ -1,0 +1,10 @@
+{% extends "default:base.html" %}
+
+{% block content %}
+<h1>Fáilte Ireland Attractions &amp; Activities</h1>
+<h2>Locality: {{ localitySlug }}</h2>
+{% with rows=sql("select * from entities_combined where AddressRegion = ? and AddressLocality = ? group by name", [countySlug, localitySlug | replace("+", " ")]) %}
+{% include '_attraction_list.html' %}
+{% endwith %}
+{% endblock %}
+

@@ -16,7 +16,7 @@
     <h2>Localities</h2>
     <ul>
     {% for row in sql("select AddressLocality, AddressRegion, count(*) as count from entities_combined where Tag = ? and AddressLocality != '' group by AddressLocality order by AddressLocality asc", [slug | replace("+", " ")]) %}
-    <li><a href="tags/{{ slug }}/counties/{{ row.AddressRegion }}/localities/{{ row.AddressLocality | replace(" ", "+") }}">{{ row.AddressLocality }}</a><span>({{row.count}})</span></li>
+    <li><a href="/tags/{{ slug }}/counties/{{ row.AddressRegion }}/localities/{{ row.AddressLocality | replace(" ", "+") }}">{{ row.AddressLocality }}</a><span>({{row.count}})</span></li>
     {% endfor %}
     </ul>
   </div>

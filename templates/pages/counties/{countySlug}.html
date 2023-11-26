@@ -5,19 +5,29 @@
 <h2>County: {{ countySlug }}</h2>
 <div class="selectorListContainer">
   <div class="selectorList">
+    {% with rows = sql("select Tag, count(*) as count from entities_combined where AddressRegion = ? group by Tag order by Tag asc", [countySlug]) %}
+    <header>
     <h2>Tags</h2>
+    <span>({{ rows | length }})</span>
+    </header>
     <ul>
-    {% for row in sql("select Tag, count(*) as count from entities_combined where AddressRegion = ? group by Tag order by Tag asc", [countySlug]) %}
+    {% for row in rows %}
     <li><a href="/tags/{{ row.Tag | replace(" ", "+") }}/counties/{{ countySlug }}">{{ row.Tag }}</a><span>({{ row.count }})</span></li>
     {% endfor %}
+    {% endwith %}
     </ul>
   </div>
   <div class="selectorList">
+    {% with rows = sql("select AddressLocality, AddressRegion, count(*) as count from entities where AddressRegion = ? and AddressLocality != '' group by AddressLocality order by AddressLocality asc", [countySlug | replace("+", " ")]) %}
+    <header>
     <h2>Localities</h2>
+    <span>({{ rows | length }})</span>
+    </header>
     <ul>
-    {% for row in sql("select AddressLocality, AddressRegion, count(*) as count from entities where AddressRegion = ? and AddressLocality != '' group by AddressLocality order by AddressLocality asc", [countySlug | replace("+", " ")]) %}
+    {% for row in rows %}
     <li><a href="/counties/{{ row.AddressRegion }}/localities/{{ row.AddressLocality | replace(" ", "+") }}">{{ row.AddressLocality }}</a><span>({{row.count}})</span></li>
     {% endfor %}
+    {% endwith %}
     </ul>
   </div>
 </div>

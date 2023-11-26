@@ -1,0 +1,11 @@
+<div class="selectorList">
+  <header>
+    <h2>{{ label }}</h2>
+    <span>({{ rows|length }})</span>
+  </header>
+  <ul>
+  {% for row in rows %}
+  <li><a href="/tags/{{ row.Tag | replace(" ", "+") }}">{{ row.Tag }}</a><span>({{row.count}})</span></li>
+  {% endfor %}
+  </ul>
+</div>
